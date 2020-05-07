@@ -99,10 +99,16 @@ public class dbAccessSampleController {
         List<Map<String, String>> list = jdbcTemplate.query("select name, capital_city from prefectures",
                 new RowMapper<Map<String, String>>() {
                     @SuppressWarnings({ "rawtypes", "unchecked" })
-                    public Map<String, String> mapRow(ResultSet rs, int rowNum) throws SQLException {
-                        Map<String, String> map = new HashMap();
-                        map.put("name", rs.getString("name"));
-                        map.put("capital_city", rs.getString("capital_city"));
+                    public Map<String, String> mapRow(ResultSet rs, int rowNum) throws SQLException {//１行１行に対してResultSetが１レコード（行）を表している
+                        Map<String, String> map = new HashMap();//Mapを初期化（再定義）
+                        map.put("name", rs.getString("name"));//rsリザルトセットのgetStringでnameを指定している。左がMapのkey、右がMapのvalue。左のnameは99行目のnameと一致。
+                        map.put("capital_city", rs.getString("capital_city"));//rsリザルトセットのcapital_cityを指定している。
+                      //Mapに返される１レコードが、nameとcapital_cityをプリフェクチャーズテーブルから取得し、Mapに詰めている。これを１行１行やっている。
+                      //上記はとりあえず呪文だと思えば良い。
+
+                        //maprowというメソッドを持ったrowmaperを渡している。470行目それがqueryのやつ・・？
+
+                        //
                         return map;
                     }
                 });
